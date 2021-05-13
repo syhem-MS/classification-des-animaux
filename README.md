@@ -280,7 +280,7 @@ confusionMatrix(data.test$class_type, predcart1)#erreur=1-accuracy
 rpart.plot(mcart)#model complexe
 plotcp(mcart)
 ```
-![](cart.png)
+![](cart1.png)
 
 
 # modele 2/ randomforest 
@@ -316,15 +316,16 @@ knn1 = knn(train = train.data[,2:17],test = test.data[,2:17],cl = train.data[,18
 summary(knn1)
 table(test.data$class_type,knn1)
 accuracy = sum((test.data$class_type==knn1)/length(test.data$class_type))*100
-accuracy #
+accuracy #100%
 ```
+![](knn1.png)
 ################################################################################################
 ```{r, include=F}
 knn2 = knn(train = train.data[,2:17],test = test.data[,2:17],cl = train.data[,18],k = 9)
 summary(knn2)
 table(test.data$class_type,knn2)
 accuracy = sum((test.data$class_type==knn2)/length(test.data$class_type))*100
-accuracy
+accuracy /77%
 ```
 ################################################################################################
 ```{r, include=F}
@@ -336,7 +337,7 @@ for (i in 1:70) {
   summary(knn)
   table(test.data$class_type,knn)
   accuracy[i] = sum((test.data$class_type==knn)/length(test.data$class_type))
-  accuracy
+  accuracy 
 }
 ```
 ################################################################################################
@@ -347,6 +348,7 @@ abline(v = which(accuracy==max(accuracy)))
                                           
 summary(knn1)
 ```
+![](knnacc.png)
 # conclusion : k=1 fournit un bon modéle.
 
 
