@@ -53,8 +53,7 @@ p1 +   scale_x_continuous(breaks = animaux1$ hair)
 ```
 ![](hair.png)
 <br/>
-Par exemple pour les animaux qui sont dans la classe des Mammal, la variable hair est dominante donc c’est la variable qui explique mieux cette classe,par contre pour les reptiles tous les animaux qui sont dans cette classe n’ont pas de
-cheuveux.
+Par exemple pour les animaux qui sont dans la classe des Mammal, la variable hair est dominante donc c’est la variable qui explique mieux cette classe,par contre pour les reptiles tous les animaux qui sont dans cette classe n’ont pas de cheuveux.
 ```{r, include=F}
 
 # feathers
