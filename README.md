@@ -123,8 +123,8 @@ tab_eggs[2,1]<-sum(animaux_C7$eggs==1)
 tab_eggs[2,2]<-sum(animaux_C7$eggs==0)
 tab_eggs
 ```
-# Creations de nouvelles colonnes dans le but de mettre 1 devant le type de l'animal
-# par exemple si l'animal 1 est un mamel on trouve 1 dans le vecteur mamel sinon 0
+# Creation de nouvelles colonnes dont le but de mettre 1 devant le type de l'animal
+# par exemple si l'animal  est un mammal on trouve 1 dans le vecteur mammal sinon 0
 ```{r, include=F}
 data=animaux1
 data$Mammal  <- ifelse(data$class_type ==1, 1, 0)
@@ -235,6 +235,8 @@ barplot(counts_train, main="la distribution totale des animaux dans la base trai
         xlab="classe animale",ylab = "frequence",
         border="blue",col="skyblue",density=100)
 ```
+![](images/partitrain.png)
+
 # nbre d'animaux dans chaque classe pour la base test 
 ```{r, include=F}
 data.test <- animaux2[-id.appr,] 
@@ -245,12 +247,14 @@ counts_test <- table(class_test)
 barplot(counts_test, main="la distribution totale des animaux dans la base test",
         xlab="classe animale",ylab = "frequence",
         border="blue",col="skyblue",density=100)
+        
+![](images/partitest.png)        
 ###################
+```{r, include=F}
 prop.table(table(data.appr$class_type))
 
 prop.table(table(data.test$class_type))
 ```
-
 # construction de modeles pour la prediction
 
 ```{r, include=F}
