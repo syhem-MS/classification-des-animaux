@@ -235,7 +235,7 @@ barplot(counts_train, main="la distribution totale des animaux dans la base trai
         xlab="classe animale",ylab = "frequence",
         border="blue",col="skyblue",density=100)
 ```
-![](images/partitrain.png)
+![](partitrain.png)
 
 # nbre d'animaux dans chaque classe pour la base test 
 ```{r, include=F}
@@ -247,8 +247,8 @@ counts_test <- table(class_test)
 barplot(counts_test, main="la distribution totale des animaux dans la base test",
         xlab="classe animale",ylab = "frequence",
         border="blue",col="skyblue",density=100)
-        
-![](images/partitest.png)        
+ ```       
+![](partitest.png)        
 ###################
 ```{r, include=F}
 prop.table(table(data.appr$class_type))
@@ -280,6 +280,7 @@ confusionMatrix(data.test$class_type, predcart1)#erreur=1-accuracy
 rpart.plot(mcart)#model complexe
 plotcp(mcart)
 ```
+![](cart.png)
 
 
 # modele 2/ randomforest 
@@ -315,7 +316,7 @@ knn1 = knn(train = train.data[,2:17],test = test.data[,2:17],cl = train.data[,18
 summary(knn1)
 table(test.data$class_type,knn1)
 accuracy = sum((test.data$class_type==knn1)/length(test.data$class_type))*100
-accuracy
+accuracy #
 ```
 ################################################################################################
 ```{r, include=F}
