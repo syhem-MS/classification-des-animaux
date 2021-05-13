@@ -158,6 +158,15 @@ Amphibian$Summary[Amphibian$Summary$IV >0.05,]#tail
 Bug$Summary[Bug$Summary$IV >0.05,]#legs
 Invertebrate$Summary[Invertebrate$Summary$IV >0.05,]#tail
 ```
+
+pour les reptiles on a:<br/>
+![](reptile.png)
+<br/>
+Donc la règle générale, si IV <0,05, la variable a très peu de pouvoir prédictif et
+n'ajoutera aucun pouvoir prédictif significatif au modèle. Par exemple venomous a la plus
+haute IV pour la cible "Reptiles", cela peut s’interpréter de la façon suivante :
+venomous a un pouvoir prédictif élevé pour classer l'animal comme étant un reptile
+ou non.
 # transformer toutes les variables en facteur 
 
 ```{r, include=F}
@@ -204,6 +213,7 @@ library(e1071)
 #install.packages("e1071")
 confusionMatrix(classe_animaux, prediction_classe)#erreur=1-accuracy 14% de mauvaise prediction
 ```
+![](conf1.png)
 
 # division du jeux de donnees 
 
