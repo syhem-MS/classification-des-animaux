@@ -39,7 +39,10 @@ counts <- table(classe)
 barplot(counts, main="la distribution des animaux dans la base",
         xlab="classe animale",ylab = "frequence",
         border="orange",col="skyblue",density=100)
+ ```
+ ![](classe.png)
 # representation des variable et leurs contribution dans chaque classe
+```{r, include=F}
 # haire
 class=as.factor(animaux1$class_type)
 p1 <- ggplot(animaux1, aes(hair , fill =classe )) 
