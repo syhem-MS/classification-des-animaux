@@ -50,6 +50,11 @@ p1 <- p1 + geom_histogram(binwidth = 0.5)
 p1 <- p1 + scale_fill_brewer(palette="Set1")
 p1 <- p1 + facet_wrap( ~ class_type, ncol=3)
 p1 +   scale_x_continuous(breaks = animaux1$ hair)
+```
+![](hair.png)
+Par exemple pour les animaux qui sont dans la classe des Mammal, la variable hair est dominante donc c’est la variable qui explique mieux cette classe,par contre pour les reptiles tous les animaux qui sont dans cette classe n’ont pas de
+cheuveux.
+```{r, include=F}
 
 # feathers
 p2 <- ggplot(animaux1, aes(x=feathers , fill =classe )) 
