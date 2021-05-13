@@ -227,9 +227,10 @@ prop.table(table(data.appr$class_type))
 prop.table(table(data.test$class_type))
 ```
 
-# construction de models pour la prediction
-# fonction qui calcul les erreurs 
+# construction de modeles pour la prediction
+
 ```{r, include=F}
+# fonction qui calcul les erreurs 
 erreur=function(pred, vrais){
   mc=table(pred,vrais)
   1-sum(diag(mc))/sum(mc)
