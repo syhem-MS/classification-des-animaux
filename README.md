@@ -52,6 +52,7 @@ p1 <- p1 + facet_wrap( ~ class_type, ncol=3)
 p1 +   scale_x_continuous(breaks = animaux1$ hair)
 ```
 ![](hair.png)
+<br/>
 Par exemple pour les animaux qui sont dans la classe des Mammal, la variable hair est dominante donc c’est la variable qui explique mieux cette classe,par contre pour les reptiles tous les animaux qui sont dans cette classe n’ont pas de
 cheuveux.
 ```{r, include=F}
@@ -102,6 +103,12 @@ library(corrplot)
 animaux=as.data.frame(animaux1[,-1])
 corrplot(cor(animaux))
 ```
+![](correlation.png)
+<br/>
+On peut remarquer que les variables hair et milk sont corrélées positivement et milk
+et eggs sont corrélées négativement.
+La variable qui va nous intéresser dans cette étude est class_type : elle est corrélée
+positivement avec eggs et corrélée négativement avec backbone et milk.
 # comparaison entre la classe 7 et la classe1 pour les variables hair et eggs par exemple
 ```{r, include=F}
 tab_hair<-matrix(nrow=2,ncol=2)
