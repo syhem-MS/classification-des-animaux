@@ -214,6 +214,12 @@ confusionMatrix(classe_animaux, prediction_classe)#erreur=1-accuracy 14% de mauv
 ```
 ![](conf1.png)
 
+Pour s’assurer qu’un modèle construit fonctionne correctement nous allons faire une
+décomposition de la base une dite train on va l’utiliser pour entraîner notre modèle
+elle contiendra 80 % d’information de la base initiale (85 données) et une base dite
+test qui nous aideras a la prédiction et à l’évaluation du modèle construit, cette
+dernière contiendras 16 données.
+
 # division du jeux de donnees 
 
 ### etape 1: diviser le jeu de données en deux bases: base apprentissage et base test
