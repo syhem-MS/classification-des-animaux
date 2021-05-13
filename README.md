@@ -348,7 +348,7 @@ abline(v = which(accuracy==max(accuracy)))
                                           
 summary(knn1)
 ```
-![](knnacc.png)
+![](knn1acc.png)
 # conclusion : k=1 fournit un bon modéle.
 
 
