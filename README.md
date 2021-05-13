@@ -4,6 +4,7 @@
 ###############----Partie 1/:Prediction de la classe d'un animal---############
 
 # Importation de la base et analyse descriptive
+```{r, include=F}
 library(ggplot2) 
 install.packages("readr")
 library(readr)
@@ -30,8 +31,10 @@ animaux_C6<-animaux1[which(animaux1$class_type==6),-17]
 dim(animaux_C6)#8
 animaux_C7<-animaux1[which(animaux1$class_type==7),-17] 
 dim(animaux_C7)#10
+```
 
 # representation graphique:
+```{r, include=F}
 counts <- table(classe)
 barplot(counts, main="la distribution des animaux dans la base",
         xlab="classe animale",ylab = "frequence",
@@ -83,13 +86,16 @@ p7 <- p7 + geom_histogram(binwidth = 0.5)
 p7 <- p7 + scale_fill_brewer(palette="Set1")
 p7 <- p7 + facet_wrap( ~ class_type, ncol=3)
 p7 +   scale_x_continuous(breaks = animaux1$predator)
+```
+# Correlation 
+```{r, include=F}
 # install.packages("corrplot")
 library(corrplot)
 animaux=as.data.frame(animaux1[,-1])
-
-# correlation
 corrplot(cor(animaux))
+```
 # comparaison entre la classe 7 et la classe1 pour les variables hair et eggs par exemple
+```{r, include=F}
 tab_hair<-matrix(nrow=2,ncol=2)
 tab_hair[1,1]<-sum(animaux_C1$hair==1)
 tab_hair[1,2]<-sum(animaux_C1$hair==0)
@@ -102,9 +108,10 @@ tab_eggs[1,2]<-sum(animaux_C1$eggs==0)
 tab_eggs[2,1]<-sum(animaux_C7$eggs==1)
 tab_eggs[2,2]<-sum(animaux_C7$eggs==0)
 tab_eggs
-
+```
 # Creations de nouvelles colonnes dans le but de mettre 1 devant le type de l'animal
 # par exemple si l'animal 1 est un mamel on trouve 1 dans le vecteur mamel sinon 0
+```{r, include=F}
 data=animaux1
 data$Mammal  <- ifelse(data$class_type ==1, 1, 0)
 data$Bird  <- ifelse(data$class_type ==2, 1, 0)
@@ -135,10 +142,10 @@ Fish$Summary[Fish$Summary$IV >0.05,]#fins
 Amphibian$Summary[Amphibian$Summary$IV >0.05,]#tail
 Bug$Summary[Bug$Summary$IV >0.05,]#legs
 Invertebrate$Summary[Invertebrate$Summary$IV >0.05,]#tail
-
+```
 # transformer toutes les variables en facteur 
 
-
+```{r, include=F}
 animaux1$hair=as.factor(animaux1$hair)
 animaux1$feathers=as.factor(animaux1$feathers)
 animaux1$eggs=as.factor(animaux1$eggs)
@@ -163,8 +170,10 @@ colnames(animaux)<-c("animal_name","hair","feathers","eggs","milk","airborne","a
 animaux=as.data.frame(animaux)
 animaux2=animaux
 animaux2=as.data.frame(animaux2)
+```
 
 # k-means sur toute la base animaux
+```{r, include=F}
 library(class)
 classe_animaux=as.factor(animaux2$class_type)
 #animaux2=animaux2[,-18]
@@ -179,11 +188,12 @@ library(caret)
 library(e1071)
 #install.packages("e1071")
 confusionMatrix(classe_animaux, prediction_classe)#erreur=1-accuracy 14% de mauvaise prediction
-
+```
 
 # division du jeux de donnees 
 
 ### etape 1: diviser le jeu de données en deux bases: base apprentissage et base test
+```{r, include=F}
 set.seed(1234)
 animaux2=animaux1
 n <- nrow(animaux) # nb de lignes de la base=nombre d'observations
@@ -191,16 +201,18 @@ id.appr <- sample.int(n,0.85*n) # tirage aléatoire de numéros de ligne pour co
 data.appr <- animaux2[id.appr,] # sélection des lignes pour l'échantillon d'apprentissage
 data.appr  #85 observation
 dim(data.appr)
-
+```
 # nbre d'animaux dans chaque classe pour la base appr (85 observation)
+```{r, include=F}
 class_train=factor(data.appr$class_type, levels = c(1,2,3,4,5,6,7),
                    labels = c("Mammal","Bird","Reptile","Fish","Amphibian","Bug","Inver"))
 counts_train <- table(class_train)
 barplot(counts_train, main="la distribution totale des animaux dans la base train",
         xlab="classe animale",ylab = "frequence",
         border="blue",col="skyblue",density=100)
-
+```
 # nbre d'animaux dans chaque classe pour la base test 
+```{r, include=F}
 data.test <- animaux2[-id.appr,] 
 dim(data.test)  #16 observation
 class_test=factor(data.test$class_type, levels = c(1,2,3,4,5,6,7),
@@ -213,18 +225,19 @@ barplot(counts_test, main="la distribution totale des animaux dans la base test"
 prop.table(table(data.appr$class_type))
 
 prop.table(table(data.test$class_type))
-
+```
 
 # construction de models pour la prediction
 # fonction qui calcul les erreurs 
+```{r, include=F}
 erreur=function(pred, vrais){
   mc=table(pred,vrais)
   1-sum(diag(mc))/sum(mc)
 }
-
+```
 
 # modele 1/ Arbre de decision:
-
+```{r, include=F}
 library(caret)
 library(rpart)
 #install.packages("rpart.plot")
@@ -237,10 +250,11 @@ er1 #0.06
 confusionMatrix(data.test$class_type, predcart1)#erreur=1-accuracy
 rpart.plot(mcart)#model complexe
 plotcp(mcart)
-
+```
 
 
 # modele 2/ randomforest 
+```{r, include=F}
 #install.packages("randomForest")
 library(randomForest)
 model_forest=randomForest(as.factor(class_type)~ .,data=data.appr, importance=TRUE, ntree=7)
@@ -252,8 +266,9 @@ confusionMatrix(predi_class, data.test$class_type)
 #--les variables les plus importantes 
 model_forest$importance[order(model_forest$importance[, 1], decreasing = TRUE)]
 varImpPlot(model_forest) 
-
+```
 # modele 3/ knn avec le bon choix de k
+```{r, include=F}
 animaux1=read_csv("animaux_I.csv")
 animaux=as.data.frame(animaux1)
 ################################################################################################
@@ -263,22 +278,26 @@ mydata=animaux
 index = sample(x = 2,size = nrow(mydata),replace = TRUE,prob = c(0.8,0.2))
 train.data = mydata[index==1,]
 test.data = mydata[index==2,]
-
+```
 ################################################################################################
-# Model
+# Modele
+```{r, include=F}
 knn1 = knn(train = train.data[,2:17],test = test.data[,2:17],cl = train.data[,18],k = 1)
 summary(knn1)
 table(test.data$class_type,knn1)
 accuracy = sum((test.data$class_type==knn1)/length(test.data$class_type))*100
 accuracy
+```
 ################################################################################################
-
+```{r, include=F}
 knn2 = knn(train = train.data[,2:17],test = test.data[,2:17],cl = train.data[,18],k = 9)
 summary(knn2)
 table(test.data$class_type,knn2)
 accuracy = sum((test.data$class_type==knn2)/length(test.data$class_type))*100
 accuracy
+```
 ################################################################################################
+```{r, include=F}
 knn = list()
 accuracy = numeric()
 for (i in 1:70) {
@@ -289,13 +308,16 @@ for (i in 1:70) {
   accuracy[i] = sum((test.data$class_type==knn)/length(test.data$class_type))
   accuracy
 }
+```
 ################################################################################################
+```{r, include=F}
 plot(x = accuracy,pch = 20,col = "red")
 abline(h = max(accuracy))
 abline(v = which(accuracy==max(accuracy)))
                                           
 summary(knn1)
-# conclusion : k=1 fournis un bon modéle.
+```
+# conclusion : k=1 fournit un bon modéle.
 
 
 
