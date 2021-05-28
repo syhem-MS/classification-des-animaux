@@ -1,7 +1,7 @@
 # classification-des-animaux
 #****************************************************************************#
 
-###############----Partie 1/:Prediction de la classe d'un animal---############
+###############----Partie 1/:Prédiction de la classe d'un animal---############
 
 # Importation de la base et analyse descriptive
 ```{r, include=F}
@@ -9,7 +9,6 @@ library(ggplot2)
 install.packages("readr")
 library(readr)
 animaux1=read_csv("animaux_I.csv")#contient 18 variables et 101 observations
-animaux1
 head(animaux1)
 str(animaux1)
 classe=factor(animaux1$class_type, levels = c(1,2,3,4,5,6,7),
@@ -33,7 +32,7 @@ animaux_C7<-animaux1[which(animaux1$class_type==7),-17]
 dim(animaux_C7)#10
 ```
 
-# representation graphique:
+# Représentation graphique:
 ```{r, include=F}
 counts <- table(classe)
 barplot(counts, main="la distribution des animaux dans la base",
@@ -41,7 +40,7 @@ barplot(counts, main="la distribution des animaux dans la base",
         border="orange",col="skyblue",density=100)
  ```
  ![](classe.png)
-# representation des variable et leurs contribution dans chaque classe
+# Représentation des variables et leurs contributions dans chaque classe
 ```{r, include=F}
 # haire
 class=as.factor(animaux1$class_type)
@@ -53,7 +52,7 @@ p1 +   scale_x_continuous(breaks = animaux1$ hair)
 ```
 ![](hair.png)
 <br/>
-Par exemple pour les animaux qui sont dans la classe des Mammal, la variable hair est dominante donc c’est la variable qui explique mieux cette classe,par contre pour les reptiles tous les animaux qui sont dans cette classe n’ont pas de cheuveux.
+Par exemple pour les animaux qui sont dans la classe des Mammal, la variable haïr est dominante donc c’est la variable qui explique mieux cette classe, par contre pour les reptiles tous les animaux qui sont dans cette classe n’ont pas de cheveux.
 ```{r, include=F}
 
 # feathers
@@ -95,7 +94,7 @@ p7 <- p7 + scale_fill_brewer(palette="Set1")
 p7 <- p7 + facet_wrap( ~ class_type, ncol=3)
 p7 +   scale_x_continuous(breaks = animaux1$predator)
 ```
-# Correlation 
+# Corrélation 
 ```{r, include=F}
 # install.packages("corrplot")
 library(corrplot)
@@ -104,11 +103,9 @@ corrplot(cor(animaux))
 ```
 ![](correlation.png)
 <br/>
-On peut remarquer que les variables hair et milk sont corrélées positivement et milk
-et eggs sont corrélées négativement.
-La variable qui va nous intéresser dans cette étude est class_type : elle est corrélée
-positivement avec eggs et corrélée négativement avec backbone et milk.
-# comparaison entre la classe 7 et la classe1 pour les variables hair et eggs par exemple
+On peut remarquer que les variables hair et milk sont corrélées positivement et milket eggs sont corrélées négativement. <br/>
+La variable qui va nous intéresser dans cette étude est class type : elle est corrélée positivement avec eggs et corrélée négativement avec backbone et milk.<br/>
+# comparaison entre la classe 7 et la classe 1 pour les variables hair et eggs par exemple
 ```{r, include=F}
 tab_hair<-matrix(nrow=2,ncol=2)
 tab_hair[1,1]<-sum(animaux_C1$hair==1)
@@ -123,7 +120,7 @@ tab_eggs[2,1]<-sum(animaux_C7$eggs==1)
 tab_eggs[2,2]<-sum(animaux_C7$eggs==0)
 tab_eggs
 ```
-# Creation de nouvelles colonnes dont le but de mettre 1 devant le type de l'animal
+# Création de nouvelles colonnes dont le but de mettre 1 devant le type de l'animal
 # par exemple si l'animal  est un mammal on trouve 1 dans le vecteur mammal sinon 0
 ```{r, include=F}
 data=animaux1
@@ -161,11 +158,9 @@ Invertebrate$Summary[Invertebrate$Summary$IV >0.05,]#tail
 pour les reptiles on a:<br/>
 ![](reptile.png)
 <br/>
-Donc la règle générale, si IV <0,05, la variable a très peu de pouvoir prédictif et
-n'ajoutera aucun pouvoir prédictif significatif au modèle. Par exemple venomous a la plus
-haute IV pour la cible "Reptiles", cela peut s’interpréter de la façon suivante :
-venomous a un pouvoir prédictif élevé pour classer l'animal comme étant un reptile
-ou non.
+Donc la règle générale, si IV < 0,05, la variable a très peu de pouvoir prédictif et n'ajoutera aucun pouvoir prédictif significatif au modèle. Par exemple venomous à la plus haute IV pour la cible "Reptiles", cela peut s’interpréter de la façon suivante :
+venomous a un pouvoir prédictif élevé pour classer l'animal comme étant un reptile ou non.<br/>
+
 # transformer toutes les variables en facteur 
 
 ```{r, include=F}
@@ -214,15 +209,11 @@ confusionMatrix(classe_animaux, prediction_classe)#erreur=1-accuracy 14% de mauv
 ```
 ![](conf1.png)
 
-Pour s’assurer qu’un modèle construit fonctionne correctement nous allons faire une
-décomposition de la base une dite train on va l’utiliser pour entraîner notre modèle
-elle contiendra 80 % d’information de la base initiale (85 données) et une base dite
-test qui nous aideras a la prédiction et à l’évaluation du modèle construit, cette
-dernière contiendras 16 données.
+Pour s’assurer qu’un modèle construit fonctionne correctement nous allons faire une décomposition de la base un dit train on va l’utiliser pour entraîner notre modèle elle contiendra 80 % d’information de la base initiale (85 données) et une base dite test qui  aidera la prédiction et à l’évaluation du modèle construit, cette dernière contiendra 16 données. <br/>
 
-# division du jeux de donnees 
+# devision du jeux de données 
 
-### etape 1: diviser le jeu de données en deux bases: base apprentissage et base test
+### étape 1: deviser le jeu de données en deux bases: base apprentissage et base test
 ```{r, include=F}
 set.seed(1234)
 animaux2=animaux1
@@ -232,7 +223,7 @@ data.appr <- animaux2[id.appr,] # sélection des lignes pour l'échantillon d'ap
 data.appr  #85 observation
 dim(data.appr)
 ```
-# nbre d'animaux dans chaque classe pour la base appr (85 observation)
+# nombre d'animaux dans chaque classe pour la base appr (85 observation)
 ```{r, include=F}
 class_train=factor(data.appr$class_type, levels = c(1,2,3,4,5,6,7),
                    labels = c("Mammal","Bird","Reptile","Fish","Amphibian","Bug","Inver"))
@@ -243,7 +234,7 @@ barplot(counts_train, main="la distribution totale des animaux dans la base trai
 ```
 ![](partitrain.png)
 
-# nbre d'animaux dans chaque classe pour la base test 
+# nombre d'animaux dans chaque classe pour la base test 
 ```{r, include=F}
 data.test <- animaux2[-id.appr,] 
 dim(data.test)  #16 observation
@@ -261,7 +252,7 @@ prop.table(table(data.appr$class_type))
 
 prop.table(table(data.test$class_type))
 ```
-# construction de modeles pour la prediction
+# construction de modèles pour la prédiction
 
 ```{r, include=F}
 # fonction qui calcul les erreurs 
@@ -271,7 +262,7 @@ erreur=function(pred, vrais){
 }
 ```
 
-# modele 1/ Arbre de decision:
+# modèle 1/ Arbre de decision:
 ```{r, include=F}
 library(caret)
 library(rpart)
@@ -289,7 +280,7 @@ plotcp(mcart)
 ![](cart1.png)
 
 
-# modele 2/ randomforest 
+# modèle 2/ randomforest 
 ```{r, include=F}
 #install.packages("randomForest")
 library(randomForest)
@@ -303,7 +294,7 @@ confusionMatrix(predi_class, data.test$class_type)
 model_forest$importance[order(model_forest$importance[, 1], decreasing = TRUE)]
 varImpPlot(model_forest) 
 ```
-# modele 3/ knn avec le bon choix de k
+# modèle 3/ knn avec le bon choix de k
 ```{r, include=F}
 animaux1=read_csv("animaux_I.csv")
 animaux=as.data.frame(animaux1)
@@ -316,7 +307,7 @@ train.data = mydata[index==1,]
 test.data = mydata[index==2,]
 ```
 ################################################################################################
-# Modele
+# Modèle pour k=1
 ```{r, include=F}
 knn1 = knn(train = train.data[,2:17],test = test.data[,2:17],cl = train.data[,18],k = 1)
 summary(knn1)
@@ -355,7 +346,7 @@ abline(v = which(accuracy==max(accuracy)))
 summary(knn1)
 ```
 ![](knn1acc.png)
-# conclusion : k=1 fournit un bon modéle.
+# conclusion : k=1 fournit un bon modèle.
 
 
 
